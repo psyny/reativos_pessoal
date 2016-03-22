@@ -1,2 +1,9 @@
 # reativos_pessoal
-# Arquivos pessoais
+
+$ cd ~
+$ tar xvf /home/extra/fsantanna/ceu.tgz
+$ exec bash
+$ ceu
+$ cd ~/ceu/ceuarduino
+$ make CEUFILE=<...>/reativos/code/arduino/ex_01.ceu
+$ make CEUFILE=<...>/reativos/code/arduino/ex_02.ceu
