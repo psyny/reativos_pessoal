@@ -1,0 +1,66 @@
+input  int PIN02, PIN03;
+output int PIN13;
+
+var int dt = 1000;
+
+loop do
+	par/or do
+	    loop do
+		emit PIN13 => _HIGH;
+		await (dt)ms;
+		emit PIN13 => _LOW;
+		await (dt)ms;
+	    end
+	with
+	    loop do
+		var int on = await PIN02
+		             until on and (dt > 200);
+		dt = dt - 100;
+		await 50ms;
+	    end
+	with
+	    loop do
+		var int on = await PIN03
+		             until on;
+		dt = dt + 100;
+		await 50ms;
+	    end
+	with
+	    loop do
+		par/or do
+		    par/and do
+		        await PIN02;
+		    with
+		        await PIN03;
+		    end
+		    break;
+		with
+		    par/or do
+		        await PIN02;
+		    with
+		        await PIN03;
+		    end
+		    await 500ms;
+		end
+	    end
+	end
+
+	// Botão ressucitar
+	loop do
+		// Espera o botão s0er apertado
+		do var int v = await PIN02
+			until v==_HIGH;
+		end
+
+		par/or do
+			// Espera o botão ser solto
+			do var int v = await PIN02
+				until v==_LOW;
+			end
+
+		with
+			await 5000ms;
+			break;
+		end
+	end
+end
